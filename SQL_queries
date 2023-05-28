@@ -51,3 +51,60 @@ WHERE attrition='Yes'
 AND education = 'Doctoral Degree';
 
 --------------------------------------------------------------------------------------------------------------------------
+
+/* Attrition rate percentage  */
+
+select round(((select count(attrition) from hrdata
+where attrition = 'Yes')/
+sum(employee_count))*100,2) as attrition_rate from hrdata;
+
+
+--------------------------------------------------------------------------------------------------------------------------
+/* Active employee count */
+
+select sum(employee_count) - (select count (attrition) from hrdata where attrition = 'Yes' )
+as Active_employee from hrdata;
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+/* Average age  */
+
+select round(avg(age),0) from hrdata;
+
+--------------------------------------------------------------------------------------------------------------------------
+/* Attrition By gender */
+
+select gender, count(attrition) as num from hrdata
+where attrition = 'Yes'
+group by gender
+order by count(attrition) desc;
+
+--------------------------------------------------------------------------------------------------------------------------
+/* Attrition by department and filter education as high school */
+
+select department,count(attrition) as num from hrdata
+where attrition = 'Yes' and education = 'High School'
+group by  department
+order by count (attrition) desc;
+
+
+--------------------------------------------------------------------------------------------------------------------------
+/* Attrition by department with percentage shown */
+
+select department,
+count(attrition) as num,
+round((cast(count(attrition) as numeric) / (select count(attrition) from hrdata
+where attrition = 'Yes'))*100,2) as Percentage
+from hrdata
+where attrition = 'Yes'
+group by  department
+order by count (attrition) desc;
+
+
+--------------------------------------------------------------------------------------------------------------------------
+/*  */
+
+
+--------------------------------------------------------------------------------------------------------------------------
+/*  */
