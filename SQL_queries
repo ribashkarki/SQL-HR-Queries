@@ -103,8 +103,28 @@ order by count (attrition) desc;
 
 
 --------------------------------------------------------------------------------------------------------------------------
-/*  */
+/* Number of employee by age */
 
+select age, sum(employee_count) from hrdata
+group by age
+order by age;
+--------------------------------------------------------------------------------------------------------------------------
+/* Education field wise attrition */
+
+select education_field, count(attrition) from hrdata
+where attrition = 'Yes'
+group by education_field
+order by count(attrition) desc;
 
 --------------------------------------------------------------------------------------------------------------------------
-/*  */
+/* Attrition by gender of different age group */
+
+select age_band, gender, count(attrition),
+round((cast(count(attrition) as numeric)
+/(select count(attrition) from hrdata where attrition ='Yes'))*100,2)
+from hrdata
+where attrition = 'Yes'
+group by age_band,gender
+order by age_band,gender;
+
+--------------------------------------------------------------------------------------------------------------------------
